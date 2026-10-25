@@ -1,0 +1,10 @@
+{
+  "BADD Lab 5/zip/B5_Ex1_Fallback.sol": {
+    "__sources__": {
+      "BADD Lab 5/zip/B5_Ex1_Fallback.sol": {
+        "content": "pragma solidity ^0.8.15;\n\ncontract FallbackReceiver {\n  event Log(string func, uint gas);\n  fallback() external payable {\n    emit Log(\"fallback\", gasleft());}\n\n  function getBalance() public view returns (uint) {\n    return address(this).balance;}}\n\ncontract FallbackSender {\n  function call(address payable _to) public payable {\n    (bool sent, ) = _to.call{value: msg.value}(\"\");\n    require(sent, \"Failed to send Ether\");}}",
+        "file": "BADD Lab 5/zip/B5_Ex1_Fallback.sol"
+      }
+    }
+  }
+}

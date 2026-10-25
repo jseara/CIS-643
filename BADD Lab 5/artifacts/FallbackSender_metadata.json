@@ -1,0 +1,58 @@
+{
+	"compiler": {
+		"version": "0.8.15+commit.e14f2714"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "_to",
+						"type": "address"
+					}
+				],
+				"name": "call",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"B5_Ex1_Fallback.sol": "FallbackSender"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"B5_Ex1_Fallback.sol": {
+			"keccak256": "0xdd1dffee242eb1c64bc3a5b57860d453d2d5596cc24c5ff1c831b9fb011b8125",
+			"urls": [
+				"bzz-raw://d3e47d4b41c21f6b751ecddcc87b2016551da704eadc1be1931f17514b520309",
+				"dweb:/ipfs/QmaBwuvArxYpgZ75Q9rXy9S7Nisrk6p3DmwFuh8kAFNiEi"
+			]
+		}
+	},
+	"version": 1
+}

