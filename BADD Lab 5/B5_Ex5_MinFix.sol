@@ -23,8 +23,9 @@ function transferFrom(address from, uint256 amnt) external checkLock {
 function burn2Ether() external checkLock {
   // set lock
   lock[msg.sender] = true;
+  uint256 cache = balance[msg.sender];
   balance[msg.sender] = 0;
-  msg.sender.call{value: balance[msg.sender]}("");
+  msg.sender.call{value: cache}("");
   // release lock
   lock[msg.sender] = false;
    }

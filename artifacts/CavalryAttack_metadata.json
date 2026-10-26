@@ -113,7 +113,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"BADD Lab 5/B5_Ex5_MinFix.sol": "CavalryAttack"
+			"BADD Lab 5/B5_Ex6_Guard2.sol": "CavalryAttack"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -127,11 +127,11 @@
 		"remappings": []
 	},
 	"sources": {
-		"BADD Lab 5/B5_Ex5_MinFix.sol": {
-			"keccak256": "0x5fbd9e36755981e30ad529dff90166497f72a9df6d72a873e8333e065b142a02",
+		"BADD Lab 5/B5_Ex6_Guard2.sol": {
+			"keccak256": "0x291734df8a1243f2b85507c6230f0aaf7a98413cec7038508382b7e6fa02a0b9",
 			"urls": [
-				"bzz-raw://58be5fbe5c6a307bec8a17a33e4f2a26e0e8ac893e3ab232a1da5eb77cbe3cec",
-				"dweb:/ipfs/QmQxGJRYuG69dUvRGPptVntcbdN5CWS7ZRonYoULmRRhqj"
+				"bzz-raw://7337b401604bba80c9b70002a8660461420effe7fa4aa30001d1fa3dc6330e3c",
+				"dweb:/ipfs/QmNSJfw6sJyq7Y8SoNpaP3q9CcjdZvcK6oSTgGoQ7Gvu3z"
 			]
 		}
 	},
