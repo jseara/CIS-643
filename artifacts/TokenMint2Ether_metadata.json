@@ -1,0 +1,95 @@
+{
+	"compiler": {
+		"version": "0.8.15+commit.e14f2714"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "other",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amnt",
+						"type": "uint256"
+					}
+				],
+				"name": "approve",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "burn2Ether",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amnt",
+						"type": "uint256"
+					}
+				],
+				"name": "transferFrom",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"BADD Lab 5/B5_Ex5_MinFix.sol": "TokenMint2Ether"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"BADD Lab 5/B5_Ex5_MinFix.sol": {
+			"keccak256": "0x5fbd9e36755981e30ad529dff90166497f72a9df6d72a873e8333e065b142a02",
+			"urls": [
+				"bzz-raw://58be5fbe5c6a307bec8a17a33e4f2a26e0e8ac893e3ab232a1da5eb77cbe3cec",
+				"dweb:/ipfs/QmQxGJRYuG69dUvRGPptVntcbdN5CWS7ZRonYoULmRRhqj"
+			]
+		}
+	},
+	"version": 1
+}

